@@ -4,8 +4,11 @@ import type {
   GrievanceInput,
   GrievanceStats,
   Status,
+  UserProfile,
+  UserRole,
 } from "../backend";
 import { useActor } from "./useActor";
+import { useInternetIdentity } from "./useInternetIdentity";
 
 export function useStats() {
   const { actor, isFetching } = useActor();
@@ -52,6 +55,44 @@ export function useIsAdmin() {
       return actor.isCallerAdmin();
     },
     enabled: !!actor && !isFetching,
+  });
+}
+
+export function useCallerRole() {
+  const { actor, isFetching } = useActor();
+  const { identity } = useInternetIdentity();
+  return useQuery<UserRole>({
+    queryKey: ["callerRole"],
+    queryFn: async () => {
+      if (!actor) throw new Error("No actor");
+      return actor.getCallerUserRole();
+    },
+    enabled: !!actor && !isFetching && !!identity,
+  });
+}
+
+export function useSetupUser() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      principal,
+      role,
+      name,
+    }: {
+      principal: import("@icp-sdk/core/principal").Principal;
+      role: UserRole;
+      name: string;
+    }) => {
+      if (!actor) throw new Error("Not connected");
+      await actor.assignCallerUserRole(principal, role);
+      const profile: UserProfile = { name };
+      await actor.saveCallerUserProfile(profile);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["callerRole"] });
+      queryClient.invalidateQueries({ queryKey: ["isAdmin"] });
+    },
   });
 }
 

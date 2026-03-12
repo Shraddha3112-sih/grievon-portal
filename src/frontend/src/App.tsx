@@ -7,6 +7,7 @@ import {
   createRoute,
   createRouter,
 } from "@tanstack/react-router";
+import { FirstTimeSetupGuard } from "./components/FirstTimeSetupGuard";
 import { Footer } from "./components/Footer";
 import { Navbar } from "./components/Navbar";
 import { InternetIdentityProvider } from "./hooks/useInternetIdentity";
@@ -14,6 +15,7 @@ import { AdminPage } from "./pages/AdminPage";
 import { ChatPage } from "./pages/ChatPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { HomePage } from "./pages/HomePage";
+import { SetupPage } from "./pages/SetupPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,7 +31,9 @@ const rootRoute = createRootRoute({
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-1">
-        <Outlet />
+        <FirstTimeSetupGuard>
+          <Outlet />
+        </FirstTimeSetupGuard>
       </div>
       <Footer />
     </div>
@@ -56,12 +60,18 @@ const adminRoute = createRoute({
   path: "/admin",
   component: AdminPage,
 });
+const setupRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/setup",
+  component: SetupPage,
+});
 
 const routeTree = rootRoute.addChildren([
   homeRoute,
   reportRoute,
   dashboardRoute,
   adminRoute,
+  setupRoute,
 ]);
 
 const router = createRouter({ routeTree });
