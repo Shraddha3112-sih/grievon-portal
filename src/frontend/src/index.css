@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Plus+Jakarta+Sans:wght@300..700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Civic Navy Blue palette */
+    --background: 0.99 0.002 240;
+    --foreground: 0.18 0.03 255;
+
+    --card: 1 0 0;
+    --card-foreground: 0.18 0.03 255;
+
+    --popover: 1 0 0;
+    --popover-foreground: 0.18 0.03 255;
+
+    /* Deep civic blue primary */
+    --primary: 0.38 0.13 255;
+    --primary-foreground: 0.99 0.002 240;
+
+    /* Light blue secondary */
+    --secondary: 0.93 0.04 255;
+    --secondary-foreground: 0.32 0.1 255;
+
+    --muted: 0.95 0.015 240;
+    --muted-foreground: 0.5 0.04 255;
+
+    /* Gold accent */
+    --accent: 0.88 0.08 85;
+    --accent-foreground: 0.25 0.08 55;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.99 0 0;
+
+    --border: 0.9 0.02 255;
+    --input: 0.9 0.02 255;
+    --ring: 0.45 0.15 255;
+
+    --radius: 0.5rem;
+
+    --chart-1: 0.55 0.18 255;
+    --chart-2: 0.6 0.15 195;
+    --chart-3: 0.65 0.12 155;
+    --chart-4: 0.7 0.1 80;
+    --chart-5: 0.75 0.08 35;
+
+    --sidebar: 0.22 0.06 255;
+    --sidebar-foreground: 0.95 0.015 240;
+    --sidebar-primary: 0.55 0.18 255;
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.3 0.08 255;
+    --sidebar-accent-foreground: 0.95 0.015 240;
+    --sidebar-border: 0.3 0.07 255;
+    --sidebar-ring: 0.55 0.18 255;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .chat-bubble-bot {
+    @apply bg-white border border-border rounded-2xl rounded-tl-sm px-4 py-3 shadow-sm max-w-[85%] md:max-w-[70%];
+  }
+
+  .chat-bubble-user {
+    @apply bg-primary text-primary-foreground rounded-2xl rounded-tr-sm px-4 py-3 max-w-[85%] md:max-w-[70%] ml-auto;
+  }
+
+  .status-submitted {
+    @apply bg-slate-100 text-slate-700 border border-slate-200;
+  }
+
+  .status-under_review {
+    @apply bg-amber-50 text-amber-700 border border-amber-200;
+  }
+
+  .status-in_progress {
+    @apply bg-blue-50 text-blue-700 border border-blue-200;
+  }
+
+  .status-resolved {
+    @apply bg-green-50 text-green-700 border border-green-200;
+  }
+}
